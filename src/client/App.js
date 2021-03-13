@@ -4,7 +4,9 @@ import PropTypes from 'prop-types';
 import './app.css';
 import {
   Input,
+  Image,
   Layout,
+  Skeleton,
   Typography,
 } from 'antd';
 import 'antd/dist/antd.css';
@@ -16,22 +18,40 @@ import {
 import parseGithubURL from 'parse-github-url';
 import ReactMarkdown from 'react-markdown';
 import CodeBlock from './Codeblock';
+import shipBlowImage from './ship_blow.png';
+import NotFoundImage from './404.png';
 
 const { Header, Content, Footer } = Layout;
 const { Search } = Input;
 const { Title } = Typography;
 
+const ErrorComponent = () => (
+  <div style={{
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    margin: '0 auto',
+  }}
+  >
+    <Image
+      preview={false}
+      src={NotFoundImage}
+      width={400}
+    />
+  </div>
+);
+
 const AppComponent = ({
+  errorData,
   getGithubRepoChanges,
   onGithubRepoChanged,
   repoDiffsData,
   submitting,
 }) => (
   <div>
-    <Layout className="layout">
+    <Layout className="layout" style={{ minHeight: '100vh' }}>
       <Header>
         <Search
-          allowClear
           onChange={onGithubRepoChanged}
           onSearch={getGithubRepoChanges}
           style={{ padding: '10px 50px' }}
@@ -44,7 +64,28 @@ const AppComponent = ({
       <Content style={{ padding: '0 50px' }}>
         <Title level={3} style={{ padding: '20px 0' }}>Breaking Changes and Versions</Title>
         <div className="site-layout-content">
-          {repoDiffsData}
+          {repoDiffsData.length ? repoDiffsData : (
+            <div>
+              <Skeleton active />
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                margin: '0 auto',
+              }}
+              >
+                <Image
+                  preview={false}
+                  src={shipBlowImage}
+                  width={200}
+                />
+                <Title>
+                  Save your app from blowing up.
+                </Title>
+              </div>
+            </div>
+          )}
+          {errorData}
         </div>
       </Content>
       <Footer style={{ textAlign: 'center' }}>
@@ -59,22 +100,32 @@ const AppComponent = ({
 );
 
 AppComponent.propTypes = {
+  errorData: PropTypes.node,
   getGithubRepoChanges: PropTypes.func,
   onGithubRepoChanged: PropTypes.func,
-  repoDiffsData: PropTypes.shape([]),
+  repoDiffsData: PropTypes.arrayOf(PropTypes.node),
   submitting: PropTypes.bool,
 };
 
 const enhance = compose(
   withState('repoDiffsData', 'setRepoDiffsData', []),
+  withState('errorData', 'setErrorData', null),
   withState('submitting', 'setSubmitting', false),
   withState('githubRepo', 'setGithubRepo', null),
   withHandlers({
-    onGithubRepoChanged: ({ setGithubRepo, setRepoDiffsData }) => (e) => {
+    onGithubRepoChanged: ({ setErrorData, setGithubRepo, setRepoDiffsData }) => (e) => {
       setGithubRepo(e.target.value);
-      if (e.target.value === '') setRepoDiffsData([]);
+      if (e.target.value === '') {
+        setErrorData(null);
+        setRepoDiffsData([]);
+      }
     },
-    getGithubRepoChanges: ({ githubRepo, setRepoDiffsData, setSubmitting }) => () => {
+    getGithubRepoChanges: ({
+      githubRepo,
+      setErrorData,
+      setRepoDiffsData,
+      setSubmitting,
+    }) => () => {
       if (githubRepo === '') return;
       const parsedGithubInfo = parseGithubURL(githubRepo);
       const { owner, name } = parsedGithubInfo;
@@ -84,8 +135,9 @@ const enhance = compose(
           .then(res => res.json())
           .then((repoData) => {
             setSubmitting(false);
-            setRepoDiffsData(repoData.data.map(diffData => (
-              <div>
+            setErrorData(null);
+            setRepoDiffsData(repoData.data.map((diffData, index) => (
+              <div key={Math.random() * index}>
                 <Title level={3}>
                   Release:
                   {diffData.release}
@@ -98,7 +150,14 @@ const enhance = compose(
                 </ReactMarkdown>
               </div>
             )));
+          }).catch(() => {
+            setSubmitting(false);
+            setRepoDiffsData([]);
+            setErrorData(ErrorComponent);
           });
+      } else {
+        setRepoDiffsData([]);
+        setErrorData(ErrorComponent);
       }
     },
   }),
