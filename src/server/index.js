@@ -1,9 +1,11 @@
 /* eslint-disable camelcase */
 const express = require('express');
 const { Octokit } = require('@octokit/core');
+const cors = require('cors');
 
 const app = express();
 
+app.use(cors());
 app.use(express.static('dist'));
 
 app.get('/api/repo/:owner/:name/changes/breaking', async (req, res) => {

@@ -131,7 +131,7 @@ const enhance = compose(
       const { owner, name } = parsedGithubInfo;
       if (owner && name) {
         setSubmitting(true);
-        fetch(`/api/repo/${owner}/${name}/changes/breaking`)
+        fetch(`http://localhost:8080/api/repo/${owner}/${name}/changes/breaking`)
           .then(res => res.json())
           .then((repoData) => {
             setSubmitting(false);
