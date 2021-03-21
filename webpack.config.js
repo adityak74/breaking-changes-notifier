@@ -1,10 +1,11 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const { DefinePlugin } = require('webpack');
 
 const outputDirectory = 'dist';
 
-module.exports = {
+module.exports = (_, args) => ({
   entry: ['babel-polyfill', './src/client/index.js'],
   output: {
     path: path.join(__dirname, outputDirectory),
@@ -44,6 +45,12 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './public/index.html',
       favicon: './public/favicon.ico'
-    })
+    }),
+    new DefinePlugin({
+      'process.env':{
+        'NODE_ENV': JSON.stringify(args.mode),
+        'API_URL': JSON.stringify(args.mode === 'production' ? 'http://34.232.168.8:3000/api' : 'http://localhost:8080/api'),
+      }
+    }),
   ]
-};
+});

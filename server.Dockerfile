@@ -6,4 +6,5 @@ COPY . .
 RUN npm ci --prod
 
 EXPOSE 8080
+EXPOSE 3000
 CMD ["node", "src/server/index.js"]

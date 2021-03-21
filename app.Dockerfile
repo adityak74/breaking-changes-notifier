@@ -11,4 +11,5 @@ WORKDIR /app
 
 COPY --from=0 /app/dist /usr/share/nginx/html
 
+EXPOSE 80
 ENTRYPOINT ["nginx", "-g", "daemon off;"]

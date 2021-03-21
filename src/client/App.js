@@ -41,6 +41,8 @@ const ErrorComponent = () => (
   </div>
 );
 
+const API_BASE = process.env.API_URL;
+
 const AppComponent = ({
   errorData,
   getGithubRepoChanges,
@@ -131,7 +133,7 @@ const enhance = compose(
       const { owner, name } = parsedGithubInfo;
       if (owner && name) {
         setSubmitting(true);
-        fetch(`http://localhost:8080/api/repo/${owner}/${name}/changes/breaking`)
+        fetch(`${API_BASE}/repo/${owner}/${name}/changes/breaking`)
           .then(res => res.json())
           .then((repoData) => {
             setSubmitting(false);
