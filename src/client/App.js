@@ -144,12 +144,14 @@ const enhance = compose(
                   Release:
                   {diffData.release}
                 </Title>
-                <ReactMarkdown
-                  allowDangerousHtml
-                  renderers={{ code: CodeBlock }}
-                >
-                  {diffData.diffs[0]}
-                </ReactMarkdown>
+                {diffData.diffs.map(diff => 
+                  <ReactMarkdown
+                    allowDangerousHtml
+                    renderers={{ code: CodeBlock }}
+                  >
+                    {diff}
+                  </ReactMarkdown>
+                  )}
               </div>
             )));
           }).catch(() => {

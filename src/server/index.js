@@ -25,11 +25,13 @@ app.get('/api/repo/:owner/:name/changes/breaking', async (req, res) => {
       } = release;
       if (body.toLocaleLowerCase().indexOf('breaking changes')) {
         const diffs = [...body.matchAll(/([\s\S]*?)(```diff)([\s\S]*?)(```)([\s\S]*?)/g)];
-        repoData.data.push({
-          release: tag_name,
-          publishedAt: published_at,
-          diffs: diffs.map(diff => [diff[2], diff[3], diff[4]].join('\n')),
-        });
+        if (diffs.length) {
+          repoData.data.push({
+            release: tag_name,
+            publishedAt: published_at,
+            diffs: diffs.map(diff => [diff[2], diff[3], diff[4]].join('\n')),
+          });
+        }
       }
     });
     return res.send(repoData);
