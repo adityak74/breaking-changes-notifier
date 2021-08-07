@@ -49,7 +49,7 @@ module.exports = (_, args) => ({
     new DefinePlugin({
       'process.env':{
         'NODE_ENV': JSON.stringify(args.mode),
-        'API_URL': JSON.stringify(args.mode === 'production' ? 'http://34.232.168.8:3000/api' : 'http://localhost:8080/api'),
+        'API_URL': JSON.stringify(args.mode === 'production' ? 'https://api.saveur.app/api' : 'http://localhost:8080/api'),
       }
     }),
   ]
