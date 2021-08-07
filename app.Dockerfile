@@ -3,7 +3,7 @@ WORKDIR /app
 
 RUN apk add --no-cache make gcc g++ python3
 COPY . .
-RUN npm install
+RUN npm ci --prod
 RUN npm run build
 
 FROM nginx
