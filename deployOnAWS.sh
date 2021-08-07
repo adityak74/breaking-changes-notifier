@@ -1,3 +1,7 @@
+echo "Stopping contianer"
+docker stop $(docker ps | grep bcn | awk '{print $1}')
+echo "Removing containers"
+docker rm $(docker ps -a | grep bcn | awk '{print $1}')
 echo "Creating docker network"
 docker network create -d bridge bcp-network
 echo "Pulling docker images"
