@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "An app to scrape and display breaking changes and versions for npm/git hosted packages.",
   "main": "src/server/index.js",
-  "proxy": "https://34.232.168.8:3000",
+  "proxy": "http://34.232.168.8:3000",
   "scripts": {
     "build": "webpack --mode production -p",
     "start": "npm run build && node src/server/index.js",
