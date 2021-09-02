@@ -18,7 +18,7 @@
     "antd": "4.13.0",
     "babel-polyfill": "6.26.0",
     "cors": "2.8.5",
-    "dotenv": "8.2.0",
+    "dotenv": "10.0.0",
     "express": "4.16.3",
     "git-url-parse": "11.4.4",
     "parse-github-url": "1.0.2",
