@@ -28,7 +28,7 @@
     "react-markdown": "5.0.3",
     "react-router": "5.2.1",
     "react-router-dom": "5.2.1",
-    "react-syntax-highlighter": "15.4.3",
+    "react-syntax-highlighter": "15.4.4",
     "recompose": "0.30.0"
   },
   "devDependencies": {
