@@ -14,7 +14,7 @@
   "author": "Aditya Karnam",
   "license": "ISC",
   "dependencies": {
-    "@octokit/core": "3.2.5",
+    "@octokit/core": "3.5.1",
     "antd": "4.13.0",
     "babel-polyfill": "6.26.0",
     "cors": "2.8.5",
