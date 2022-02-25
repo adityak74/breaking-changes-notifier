@@ -23,13 +23,14 @@
     "git-url-parse": "11.6.0",
     "parse-github-url": "1.0.2",
     "prop-types": "15.7.2",
-    "react": "17.0.2",
-    "react-dom": "17.0.2",
+    "react": "16.13.1",
+    "react-dom": "16.13.1",
     "react-markdown": "7.0.1",
     "react-router": "5.2.1",
     "react-router-dom": "5.3.0",
     "react-syntax-highlighter": "15.4.4",
-    "recompose": "0.30.0"
+    "recompose": "0.30.0",
+    "url": "0.11.0"
   },
   "devDependencies": {
     "@babel/core": "7.15.5",
@@ -51,8 +52,8 @@
     "nodemon": "2.0.12",
     "style-loader": "3.2.1",
     "url-loader": "4.1.1",
-    "webpack": "5.52.0",
-    "webpack-cli": "4.8.0",
-    "webpack-dev-server": "4.1.1"
+    "webpack": "5.69.1",
+    "webpack-cli": "4.9.2",
+    "webpack-dev-server": "4.7.4"
   }
 }
